@@ -5,17 +5,6 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: ${opt:region, 'us-east-1'}
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Principal:
-            Service:
-              - lambda.amazonaws.com
-          Action:
-            - "s3:GetObject"
-          Resource:
-            - ${self:custom.BucketName}
 
 custom:
   BucketName: upload-s3-file-to-dynamo
@@ -38,9 +27,34 @@ functions:
     handler: index.handler
     layers:
       - !Ref NodemodulesLambdaLayer
+    role: !Ref s3ReadRole
     events:
       - s3:
           bucket: ${self:custom.BucketName}
           event: s3:ObjectCreated:*
           rules:
             - suffix: .csv
+
+resources:
+  Resources:
+    s3ReadRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action:
+                - "sts:AssumeRole"
+        Policies:
+          - PolicyName: s3ReadAccess
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - s3:GetObject
+                  Resource: !Ref ${self:custom.BucketName}
