@@ -14,10 +14,11 @@ functions:
           event: s3:ObjectCreated:*
           rules:
             - suffix: .csv
+          existing: true
 
 resources:
   Resources:
     csvS3Bucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: s3BucketForCSV
+        BucketName: s3-upload-csv-to-dynamodb
