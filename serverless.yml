@@ -14,7 +14,7 @@ provider:
           Action:
             - "s3:GetObject"
           Resource:
-            - !GetAtt ${self:custom.BucketName.Arn}
+            - ${self:custom.BucketName}
 
 custom:
   BucketName: upload-s3-file-to-dynamo
