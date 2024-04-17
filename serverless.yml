@@ -10,7 +10,8 @@ provider:
       statements:
         - Effect: Allow
           Principal:
-            - !Ref function1.Arn
+            Service:
+              - lambda.amazonaws.com
           Action:
             - "s3:GetObject"
           Resource:
