@@ -56,7 +56,8 @@ resources:
               Statement:
                 - Effect: Allow
                   Action:
-                    - s3:GetObject
-                    - s3:List
+                    - s3:Get*
+                    - s3:List*
+                    - s3:ListBucket
 
                   Resource: !Sub arn:aws:s3:::${self:custom.BucketName}
