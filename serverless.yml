@@ -10,7 +10,6 @@ layers:
   nodemodules:
     package:
       artifact: "/layers/nodejs.zip"
-      excludeDevDependencies: true
 
 package:
   individually: true
