@@ -10,7 +10,7 @@ provider:
       statements:
         - Effect: Allow
           Principal:
-            - !GetAtt function1.Arn
+            - !Ref function1.Arn
           Action:
             - "s3:GetObject"
           Resource:
