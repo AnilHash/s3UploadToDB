@@ -1,6 +1,6 @@
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+const S3 = require("@aws-sdk/client-s3");
 
-const client = new S3Client({});
+const client = new S3.S3Client({});
 
 module.exports.handler = async (event) => {
   console.log(
@@ -13,7 +13,7 @@ module.exports.handler = async (event) => {
 
   const Key = event["Records"][0]["s3"]["object"]["key"];
 
-  const command = new GetObjectCommand({
+  const command = new S3.GetObjectCommand({
     Bucket,
     Key,
   });
