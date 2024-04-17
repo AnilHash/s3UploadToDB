@@ -27,7 +27,7 @@ functions:
     handler: index.handler
     layers:
       - !Ref NodemodulesLambdaLayer
-    role: !Ref s3ReadRole
+    role: !GetAtt s3ReadRole.Arn
     events:
       - s3:
           bucket: ${self:custom.BucketName}
@@ -57,4 +57,4 @@ resources:
                 - Effect: Allow
                   Action:
                     - s3:GetObject
-                  Resource: !Ref ${self:custom.BucketName}
+                  Resource: !Sub arn:aws:s3:::${self:custom.BucketName}
