@@ -8,3 +8,16 @@ provider:
 functions:
   function1:
     handler: index.handler
+    events:
+      - s3:
+          bucket: !Ref csvS3Bucket
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .csv
+
+resources:
+  Resources:
+    csvS3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: s3BucketForCSV
