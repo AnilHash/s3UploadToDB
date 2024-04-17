@@ -5,9 +5,26 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: ${opt:region, 'us-east-1'}
+
+layers:
+  nodemodules:
+    package:
+      artifact: "/layers/nodejs.zip"
+      excludeDevDependencies: true
+
+package:
+  individually: true
+  patterns:
+    - "!layers/**"
+    - "!node_modules/**"
+    - "!package.json"
+    - "!package-lock.json"
+
 functions:
   function1:
     handler: index.handler
+    layers:
+      - !Ref NodemodulesLambdaLayer
     events:
       - s3:
           bucket: upload-s3-file-to-dynamo
