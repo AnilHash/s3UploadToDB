@@ -5,6 +5,19 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: ${opt:region, 'us-east-1'}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Principal:
+            - !GetAtt function1.Arn
+          Action:
+            - "s3:GetObject"
+          Resource:
+            - !GetAtt ${self:custom.BucketName}.Arn
+
+custom:
+  BucketName: upload-s3-file-to-dynamo
 
 layers:
   nodemodules:
@@ -26,7 +39,7 @@ functions:
       - !Ref NodemodulesLambdaLayer
     events:
       - s3:
-          bucket: upload-s3-file-to-dynamo
+          bucket: ${self:custom.BucketName}
           event: s3:ObjectCreated:*
           rules:
             - suffix: .csv
