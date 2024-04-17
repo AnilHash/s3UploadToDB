@@ -9,7 +9,7 @@ provider:
 layers:
   nodemodules:
     package:
-      artifact: "/layers/nodejs.zip"
+      artifact: layers/nodejs.zip
 
 package:
   individually: true
