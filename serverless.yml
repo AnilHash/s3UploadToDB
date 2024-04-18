@@ -5,17 +5,6 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: ${opt:region, 'us-east-1'}
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - "s3-*"
-            - "logs-*"
-          Principal:
-            "Service":
-              - !GetAtt function1.Arn
-          Resource: !Sub arn:aws:s3:::${self:custom.BucketName}/*
 
 custom:
   BucketName: upload-s3-file-to-dynamo
@@ -44,3 +33,20 @@ functions:
           event: s3:ObjectCreated:*
           rules:
             - suffix: .csv
+          existing: true
+
+resources:
+  Resources:
+    s3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.BucketName}
+    s3LambdaBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref s3Bucket
+        PolicyDocument:
+          Statements:
+            - Effect: Allow
+              Action:
+                - "S3:*"
