@@ -49,4 +49,4 @@ resources:
           Statements:
             - Effect: Allow
               Action:
-                - "s3:*"
+                - "S3:*"
