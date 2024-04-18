@@ -68,7 +68,7 @@ resources:
                           - "log-group:/aws/lambda/*:*:*"
                 - Effect: "Allow"
                   Action:
-                    - "s3:GetObject"
+                    - "s3:Get*"
                     - "s3:List*"
                     - "s3:Describe*"
                   Resource:
