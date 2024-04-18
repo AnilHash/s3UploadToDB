@@ -14,7 +14,7 @@ provider:
             - "logs-*"
           Principal:
             "Service":
-              - !Ref function1
+              - !GetAtt function1.Arn
           Resource: !Sub arn:aws:s3:::${self:custom.BucketName}/*
 
 custom:
