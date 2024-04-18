@@ -27,7 +27,7 @@ functions:
     handler: index.handler
     layers:
       - !Ref NodemodulesLambdaLayer
-    role: !Ref lambdaRole
+    role: lambdaRole
     events:
       - s3:
           bucket: ${self:custom.BucketName}
