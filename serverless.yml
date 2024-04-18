@@ -12,7 +12,8 @@ provider:
           Action:
             - "s3-*"
             - "logs-*"
-          Principal: !Ref function1
+          Principal:
+            "Service": !Ref function1
           Resource: !Sub arn:aws:s3:::${self:custom.BucketName}/*
 
 custom:
