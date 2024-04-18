@@ -70,6 +70,7 @@ resources:
                   Action:
                     - "s3:GetObject"
                     - "s3:List*"
+                    - "s3:Describe*"
                   Resource:
                     Fn::Join:
                       - ""
