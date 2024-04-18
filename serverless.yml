@@ -78,3 +78,4 @@ resources:
                       - ""
                       - - "arn:aws:s3:::"
                         - ${self:custom.BucketName}
+                        - "/*"
