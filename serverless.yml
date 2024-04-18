@@ -46,7 +46,7 @@ resources:
       Properties:
         Bucket: !Ref s3Bucket
         PolicyDocument:
-          Statements:
+          Statement:
             - Effect: Allow
               Action:
                 - "S3:*"
