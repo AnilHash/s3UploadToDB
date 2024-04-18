@@ -69,6 +69,7 @@ resources:
                 - Effect: "Allow"
                   Action:
                     - "s3:GetObject"
+                    - "s3:List*"
                   Resource:
                     Fn::Join:
                       - ""
