@@ -34,19 +34,3 @@ functions:
           rules:
             - suffix: .csv
           existing: true
-
-resources:
-  Resources:
-    s3Bucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${self:custom.BucketName}
-    s3LambdaBucketPolicy:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        Bucket: !Ref s3Bucket
-        PolicyDocument:
-          Statement:
-            - Effect: Allow
-              Action:
-                - "S3:*"
