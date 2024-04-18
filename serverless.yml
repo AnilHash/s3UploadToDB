@@ -33,4 +33,3 @@ functions:
           event: s3:ObjectCreated:*
           rules:
             - suffix: .csv
-          existing: true
