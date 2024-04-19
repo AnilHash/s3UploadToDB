@@ -38,7 +38,7 @@ module.exports.handler = async (event) => {
       const param = new PutCommand({
         TableName: TABLE_NAME,
         Item: {
-          id: uuid.v4(),
+          customerId: uuid.v4(),
           name: customer[0],
           vehical: customer[1],
         },
