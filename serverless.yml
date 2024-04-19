@@ -81,7 +81,7 @@ resources:
                 - Effect: "Allow"
                   Action:
                     - "dynamodb:PutItem"
-                  Resource: !Ref carOwnerTable
+                  Resource: !GetAtt carOwnerTable.Arn
     carOwnerTable:
       Type: AWS::DynamoDB::Table
       Properties:
