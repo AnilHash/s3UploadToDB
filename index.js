@@ -22,7 +22,12 @@ module.exports.handler = async (event) => {
     const response = await client.send(command);
     // The Body object also has 'transformToByteArray' and 'transformToWebStream' methods.
     const str = await response.Body.transformToString();
-    console.log(str);
+    const customers = str.split("\n");
+    console.log(customers);
+    customers.forEach((element) => {
+      const customer = element.split(",");
+      console.log(customer);
+    });
   } catch (err) {
     console.error(err);
   }
