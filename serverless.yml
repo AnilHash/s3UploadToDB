@@ -5,9 +5,12 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: ${opt:region, 'us-east-1'}
+  environment:
+    TableName: ${self:custom.TableName}
 
 custom:
   BucketName: upload-s3-file-to-dynamo
+  TableName: carOwnerTable
 
 layers:
   nodemodules:
@@ -75,3 +78,17 @@ resources:
                       - - "arn:aws:s3:::"
                         - ${self:custom.BucketName}
                         - "/*"
+                - Effect: "Allow"
+                  Action:
+                    - "dynamodb:PutItem"
+                  Resource: !Ref carOwnerTable
+    carOwnerTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.TableName}
+        KeySchema:
+          - AttributeName: customerId
+            KeyType: HASH
+        AttributeDefinitions:
+          - AttributeName: customerId
+            AttributeType: S

@@ -1,6 +1,14 @@
 const S3 = require("@aws-sdk/client-s3");
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { PutCommand, DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
+const uuid = require("uuid");
 
-const client = new S3.S3Client({});
+const dbClient = new DynamoDBClient({});
+const docClient = DynamoDBDocumentClient.from(dbClient);
+
+const s3Client = new S3.S3Client({});
+
+const TABLE_NAME = process.env.TableName;
 
 module.exports.handler = async (event) => {
   console.log(
@@ -19,15 +27,26 @@ module.exports.handler = async (event) => {
   });
 
   try {
-    const response = await client.send(command);
+    const response = await s3Client.send(command);
     // The Body object also has 'transformToByteArray' and 'transformToWebStream' methods.
     const str = await response.Body.transformToString();
     const customers = str.split("\r\n");
     console.log(customers);
-    customers.forEach((element) => {
-      const customer = element.split(",");
+    for (let i = 0; i < customers.length - 1; i++) {
+      const customer = customers[i].split(",");
       console.log(customer);
-    });
+      const param = new PutCommand({
+        TableName: TABLE_NAME,
+        Item: {
+          id: uuid.v4(),
+          name: customer[0],
+          vehical: customer[1],
+        },
+      });
+      const res = await docClient.send(param);
+      console.log("response", res);
+      return res;
+    }
   } catch (err) {
     console.error(err);
   }
