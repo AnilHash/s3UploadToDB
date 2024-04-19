@@ -85,6 +85,7 @@ resources:
     carOwnerTable:
       Type: AWS::DynamoDB::Table
       Properties:
+        BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.TableName}
         KeySchema:
           - AttributeName: customerId
