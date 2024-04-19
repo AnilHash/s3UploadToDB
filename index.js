@@ -32,7 +32,7 @@ module.exports.handler = async (event) => {
     const str = await response.Body.transformToString();
     const customers = str.split("\r\n");
     console.log(customers);
-    for (let i = 0; i < customers.length - 1; i++) {
+    for (let i = 1; i < customers.length - 1; i++) {
       const customer = customers[i].split(",");
       console.log(customer);
       const param = new PutCommand({
@@ -45,8 +45,8 @@ module.exports.handler = async (event) => {
       });
       const res = await docClient.send(param);
       console.log("response", res);
-      return res;
     }
+    return res;
   } catch (err) {
     console.error(err);
   }
