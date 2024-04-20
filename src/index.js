@@ -71,7 +71,7 @@ module.exports.handler = async (event) => {
     }
 
     const sendEmailCommand = createSendEmailCommand({
-      toAddress: "anilaraganji123@gmail",
+      toAddress: "anilaraganji123@gmail.com",
       messageText: "Data has been added to dynamoDB successfully!!",
     });
 
