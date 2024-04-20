@@ -27,7 +27,7 @@ package:
 
 functions:
   function1:
-    handler: index.handler
+    handler: src/index.handler
     layers:
       - !Ref NodemodulesLambdaLayer
     role: lambdaRole
