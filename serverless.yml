@@ -82,6 +82,17 @@ resources:
                   Action:
                     - "dynamodb:PutItem"
                   Resource: !GetAtt carOwnerTable.Arn
+                - Effect: "Allow"
+                  Action:
+                    - "ses:SendEmail"
+                  Resource:
+                    Fn::Join:
+                      - ""
+                      - - "arn:aws:ses:"
+                        - !Ref "AWS::Region"
+                        - ":"
+                        - ${aws:accountId}
+                        - ":identity/anilaraganji123@gmail"
     carOwnerTable:
       Type: AWS::DynamoDB::Table
       Properties:
