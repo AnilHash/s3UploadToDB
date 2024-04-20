@@ -21,7 +21,12 @@ const createSendEmailCommand = ({ toAddress, messageText }) => {
           Data: messageText,
         },
       },
+      Subject: {
+        Charset: "UTF-8",
+        Data: "EMAIL_SUBJECT",
+      },
     },
+    Source: toAddress,
     Destination: {
       ToAddresses: [toAddress],
     },
