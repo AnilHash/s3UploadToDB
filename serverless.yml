@@ -92,7 +92,7 @@ resources:
                         - !Ref "AWS::Region"
                         - ":"
                         - ${aws:accountId}
-                        - ":identity/anilaraganji123@gmail"
+                        - ":identity/anilaraganji123@gmail.com"
     carOwnerTable:
       Type: AWS::DynamoDB::Table
       Properties:
