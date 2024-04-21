@@ -7,10 +7,12 @@ provider:
   region: ${opt:region, 'us-east-1'}
   environment:
     TableName: ${self:custom.TableName}
+    TopicArn: ${self:custom.notificationTopic}
 
 custom:
   BucketName: upload-s3-file-to-dynamo
   TableName: carOwnerTable
+  notificationTopic: s3UploadNotification
 
 layers:
   nodemodules:
@@ -93,6 +95,10 @@ resources:
                         - ":"
                         - ${aws:accountId}
                         - ":identity/anilaraganji123@gmail.com"
+                - Effect: "Allow"
+                  Action:
+                    - "sns:Publish"
+                  Resource: !Ref notificationTopic
     carOwnerTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -104,3 +110,19 @@ resources:
         AttributeDefinitions:
           - AttributeName: customerId
             AttributeType: S
+    notificationTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:custom.notificationTopic}
+    notificationEmailSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: email
+        TopicArn: !Ref notificationTopic
+        Endpoint: anilaraganji123@gmail.com
+    notificationSmsSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Protocol: sms
+        TopicArn: !Ref notificationTopic
+        Endpoint: "+916362880924"

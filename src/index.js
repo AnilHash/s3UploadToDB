@@ -4,6 +4,8 @@ const { PutCommand, DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
 const uuid = require("uuid");
 const { SendEmailCommand } = require("@aws-sdk/client-ses");
 const { sesClient } = require("../lib/sesClient");
+const { snsClient } = require("../lib/snsClient");
+const { PublishCommand } = require("@aws-sdk/client-sns");
 
 const dbClient = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(dbClient);
@@ -11,6 +13,7 @@ const docClient = DynamoDBDocumentClient.from(dbClient);
 const s3Client = new S3.S3Client({});
 
 const TABLE_NAME = process.env.TableName;
+const TOPIC_ARN = process.env.Topic_Arn;
 
 const createSendEmailCommand = ({ toAddress, messageText }) => {
   return new SendEmailCommand({
@@ -69,13 +72,22 @@ module.exports.handler = async (event) => {
       const res = await docClient.send(param);
       console.log("response", res);
     }
-
+    const SUCCESS_MESSAGE_TEXT =
+      "Data has been added to dynamoDB successfully!!";
     const sendEmailCommand = createSendEmailCommand({
       toAddress: "anilaraganji123@gmail.com",
-      messageText: "Data has been added to dynamoDB successfully!!",
+      messageText: SUCCESS_MESSAGE_TEXT,
     });
 
-    const res = await sesClient.send(sendEmailCommand);
+    const sesResponse = await sesClient.send(sendEmailCommand);
+    console.log(sesResponse);
+    const snsParams = new PublishCommand({
+      Message: SUCCESS_MESSAGE_TEXT,
+      TopicArn: TOPIC_ARN,
+    });
+    const snsResponse = await snsClient.send(snsParams);
+    console.log(snsResponse);
+    return snsResponse;
   } catch (err) {
     console.error(err);
   }
