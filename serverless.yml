@@ -7,7 +7,7 @@ provider:
   region: ${opt:region, 'us-east-1'}
   environment:
     TableName: ${self:custom.TableName}
-    TopicArn: ${self:custom.notificationTopic}
+    TopicArn: !Ref notificationTopic
 
 custom:
   BucketName: upload-s3-file-to-dynamo

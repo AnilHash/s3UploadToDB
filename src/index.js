@@ -85,6 +85,7 @@ module.exports.handler = async (event) => {
       Message: SUCCESS_MESSAGE_TEXT,
       TopicArn: TOPIC_ARN,
     });
+    console.log("ARN::::>> ", TOPIC_ARN);
     const snsResponse = await snsClient.send(snsParams);
     console.log(snsResponse);
     return snsResponse;
