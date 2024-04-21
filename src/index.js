@@ -13,7 +13,7 @@ const docClient = DynamoDBDocumentClient.from(dbClient);
 const s3Client = new S3.S3Client({});
 
 const TABLE_NAME = process.env.TableName;
-const TOPIC_ARN = process.env.Topic_Arn;
+const TOPIC_ARN = process.env.TopicArn;
 
 const createSendEmailCommand = ({ toAddress, messageText }) => {
   return new SendEmailCommand({
